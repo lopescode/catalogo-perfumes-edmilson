@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Catálogo de Perfumes — Edmilson França
 
-## Getting Started
+Site-catálogo dos perfumes **O Boticário**, **Eudora**, **O.U.i** e **Quem Disse, Berenice?** vendidos pelo Edmilson.
+Feito com Next.js 16 (App Router), TypeScript, Tailwind CSS v4 e pnpm.
 
-First, run the development server:
+## Como funciona
+
+- Os produtos vêm **ao vivo** da API do catálogo "Minha Loja" do Grupo Boticário
+  (`minhaloja-api.grupoboticario.digital`, a mesma da loja multimarcas do Edmilson), com
+  preços do ciclo atual e **estoque** (disponível / últimas unidades / esgotado).
+  O site se atualiza sozinho a cada **30 minutos**. O cliente **nunca** é mandado para a Minha Loja.
+- Esgotados aparecem em cinza, no fim da lista, e não entram na sacola; quem já tinha o
+  item na sacola vê o aviso e ele sai do pedido.
+- O cliente monta a **sacola** (fica salva no navegador), preenche nome, forma de
+  recebimento e pagamento, e o pedido é enviado já formatado para o **WhatsApp** do
+  Edmilson. Ele compra e entrega.
+- Os pedidos vão para o WhatsApp **+55 19 99146-6750** (definido em `src/config.ts`;
+  pode ser trocado pela variável `NEXT_PUBLIC_WHATSAPP`).
+
+## Rodando localmente
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev                     # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Publicando (Vercel)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Suba o projeto para um repositório no GitHub.
+2. Importe-o em https://vercel.com/new (detecta Next.js e pnpm automaticamente).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Onde mexer
 
-## Learn More
+| O quê | Arquivo |
+| --- | --- |
+| Nome, WhatsApp, formas de pagamento | `src/config.ts` |
+| Sacola e mensagem do pedido | `src/components/cart/` |
+| Busca de dados / categorias | `src/lib/catalog.ts` |
+| Cores e fonte | `src/app/globals.css` |
+| Página inicial | `src/app/page.tsx` |
+| Página do perfume | `src/app/perfume/[loja]/[sku]/page.tsx` |
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> A API do Grupo Boticário não é documentada publicamente. Se ela mudar, o site
+> mostra um aviso com um botão de WhatsApp em vez de quebrar.
